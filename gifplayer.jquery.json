@@ -1,0 +1,32 @@
+{
+    "name": "darktooltip",
+    "title": "DarkTooltip",
+    "description": "A simple customizable tooltip with confirm option and effects",
+    "keywords": [
+        "tooltip",
+        "confirm"
+    ],
+    "version": "0.1.4",
+    "author": {
+        "name": "Ruben Torres"
+    },
+    "maintainers": [
+        {
+            "name": "Ruben Torres",
+            "email": "rubentdh@gmail.com",
+            "url": "rubentd.com"
+        }
+    ],
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "https://github.com/darthrubens/darktooltip/blob/master/LICENSE"
+        }
+    ],
+    "homepage": "http://rubentd.com/darktooltip",
+    "docs": "http://rubentd.com/darktooltip",
+    "download": "http://rubentd.com/darktooltip",
+    "dependencies": {
+        "jquery": ">=1.5"
+    }
+}

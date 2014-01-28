@@ -1,0 +1,98 @@
+body{
+	font-family: "Helvetica Neue", Arial, sans-serif;
+	font-size: 14px;
+}
+
+a, a:hover, a:visited{
+	color:#666;
+}
+
+.logo{
+	width:150px;
+	height:86px;
+	display:inline-block;
+	background-image:url(../img/logo.png);
+	position:absolute;
+	left:500px;
+	top:20px;
+}
+
+.logo a{
+	color:#fff;
+	position:relative;
+	top:25px;
+	left:35px;
+}
+
+h1{
+	font-size: 24px;
+	margin-bottom:15px;
+}
+
+h2{
+	font-weight: bold;
+	margin-bottom:10px;
+}
+
+.main{
+	margin:40px;
+}
+
+section{
+	display:inline-block;
+	width:100%;
+}
+
+.options section{
+	margin:20px 0;
+}
+
+.example{
+	float:left;
+	margin:0 10px;
+}
+
+.box{
+	float: left;
+	padding: 10px;
+	background-color: #eee;
+	width:100px;
+	margin:0 10px 10px 0px;
+	text-align:center;
+}
+
+.box.fixed-box{
+	position:fixed;
+	right:50px;
+	top:50px;
+}
+
+hr{
+	margin:20px 0;
+	color: #ddd;
+	background-color: #ddd;
+	height: 2px;
+	border:none;
+}
+
+.code{
+	width:650px;
+}
+
+table.options th{
+	font-weight:bold;
+	color:#999;
+	text-align:left;
+}
+
+table.options thead{
+	border-bottom:1px solid #ccc;
+}
+
+table.options th, td{
+	padding:5px 10px 5px 5px;
+}
+
+table.options td:first-child{
+	color:navy;
+}
