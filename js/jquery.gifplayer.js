@@ -5,30 +5,72 @@
  * Released under the MIT license
  */
 
-(function($) {
+ (function($) {
 
-	function gifplayer(image){
-		
-	}
+ 	function GifPlayer(preview, options){
+ 		this.previewElement=preview;
+ 		this.options=options;
+ 	}
 
-	GifPlayer.prototype = {
-		activate: function(){
-			console.log('activating');
-		}
-	}
+ 	GifPlayer.prototype = {
 
-	$.fn.gifplayer = function(options) {
-		this.each(function(){
-			options = $.extend({}, $.fn.gifplayer.defaults, options);
-			
-			var gifplayer = new GifPlayer($(this), options);
-			gifplayer.activate();
+ 		activate: function(){
+ 			this.wrap();
+ 			this.setGif();
+ 			this.addControl();
+ 			this.addEvents();
+ 		},
 
-		});	
-	}
+ 		wrap: function(){
+ 			this.wrapper = this.previewElement.wrap("<div class='gifplayer-wrapper'></div>").parent();
+ 			this.wrapper.css('width', this.previewElement.width());
+ 			this.wrapper.css('height', this.previewElement.height());
+ 		},
 
-	$.fn.gifplayer.defaults = {
-        
-    };
+ 		setGif: function(){
+ 			if(this.previewElement.attr('data-gif').length > 0){
+ 				this.options.gifSrc = this.previewElement.attr('data-gif');
+ 			}
+ 			this.previewElement.addClass('preview');
+ 			var gifSrc=this.options.gifSrc;
+ 			var gifWidth=this.previewElement.width();
+ 			var gifHeight=this.previewElement.height();
+ 			this.gifElement=$("<img src='" + gifSrc + "' width='"+ gifWidth + "' height=' "+ gifHeight +" '/>");
+ 			this.gifElement.css('cursor','pointer');
+ 		},
 
-})(jQuery);
+ 		addControl: function(){
+ 			this.playElement = $("<ins class='play-gif'>" + this.options.playText + "</ins>");
+ 			this.playElement.css('left', this.previewElement.width()/2 + this.playElement.width()/2);
+ 			this.wrapper.append(this.playElement);
+ 		},
+
+ 		addEvents: function(){
+ 			var gp=this;
+ 			this.playElement.click( function(){
+ 				gp.previewElement.hide();
+ 				gp.playElement.hide();
+ 				gp.wrapper.append(gp.gifElement);
+ 				gp.gifElement.click( function(){
+ 					gp.gifElement.remove();
+ 					gp.previewElement.show();
+ 					gp.playElement.show();
+ 				})
+ 			});
+ 		}
+
+ 	}
+
+ 	$.fn.gifplayer = function(options) {
+ 		this.each(function(){
+ 			options = $.extend({}, $.fn.gifplayer.defaults, options);
+ 			var gifplayer = new GifPlayer($(this), options);
+ 			gifplayer.activate();
+ 		});	
+ 	}
+
+ 	$.fn.gifplayer.defaults = {
+ 		playText: 'play'
+ 	};
+
+ })(jQuery);

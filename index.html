@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>gifplayer. Customizable jquery plugin to play and stop animated gifs. Similar to 9gag's</title>
     <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/gifplayer.css">
     <link rel="stylesheet" href="css/examples.css">
     <link rel="icon" type="image/png" href="http://rubentd.com/img/favicon.png">
 </head>
@@ -15,12 +16,9 @@
     	<h1>gifplayer</h1>
     	<p>Customizable jquery plugin to play and stop animated gifs. Similar to 9gag's</p>
         <p>By <a href="http://www.twitter.com/darthrubens">@darthrubens</a></p>
-    	<i class="logo">
-         <a href="examples.html">View demo</a>   
-        </i>
 
 		<section>
-    		
+    		<img id="banana" src="img/banana.png" data-gif="img/banana.gif"/>
         </section>
 
     	<section>
@@ -58,6 +56,9 @@
             <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
         </section>
     </main>
+    <script src="js/jquery-1.10.2.min.js"></script>
+    <script src="js/jquery.gifplayer.js"></script>
+    <script src="js/index.js"></script>
 
 </body>
 </html>
