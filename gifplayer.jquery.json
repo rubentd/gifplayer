@@ -1,12 +1,14 @@
 {
-    "name": "darktooltip",
-    "title": "DarkTooltip",
-    "description": "A simple customizable tooltip with confirm option and effects",
+    "name": "gifplayer",
+    "title": "gifplayer",
+    "description": "Customizable jquery plugin to play and stop animated gifs. Similar to 9gag's",
     "keywords": [
-        "tooltip",
-        "confirm"
+        "gif",
+        "9gag",
+	"animated",
+	"player"
     ],
-    "version": "0.1.4",
+    "version": "0.1.0",
     "author": {
         "name": "Ruben Torres"
     },
@@ -20,12 +22,12 @@
     "licenses": [
         {
             "type": "MIT",
-            "url": "https://github.com/darthrubens/darktooltip/blob/master/LICENSE"
+            "url": "https://github.com/darthrubens/gifplayer/blob/master/LICENSE"
         }
     ],
-    "homepage": "http://rubentd.com/darktooltip",
-    "docs": "http://rubentd.com/darktooltip",
-    "download": "http://rubentd.com/darktooltip",
+    "homepage": "http://rubentd.com/gifplayer",
+    "docs": "http://rubentd.com/gifplayer",
+    "download": "http://rubentd.com/gifplayer",
     "dependencies": {
         "jquery": ">=1.5"
     }
