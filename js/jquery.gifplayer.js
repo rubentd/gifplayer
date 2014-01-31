@@ -16,8 +16,10 @@
 
  		activate: function(){
  			this.wrap();
- 			this.setGif();
  			this.addControl();
+ 			if(this.options.linkEnabled){
+ 				this.addViewFullSizeLink();
+ 			}
  			this.addEvents();
  		},
 
@@ -27,16 +29,11 @@
  			this.wrapper.css('height', this.previewElement.height());
  		},
 
- 		setGif: function(){
- 			if(this.previewElement.attr('data-gif').length > 0){
- 				this.options.gifSrc = this.previewElement.attr('data-gif');
- 			}
- 			this.previewElement.addClass('preview');
- 			var gifSrc=this.options.gifSrc;
- 			var gifWidth=this.previewElement.width();
- 			var gifHeight=this.previewElement.height();
- 			this.gifElement=$("<img src='" + gifSrc + "' width='"+ gifWidth + "' height=' "+ gifHeight +" '/>");
- 			this.gifElement.css('cursor','pointer');
+
+ 		getGifSrc: function(){
+ 			var size = "-" + this.previewElement.width() + 'x' + this.previewElement.height();
+ 			var linkHref = 	this.previewElement.attr('src').replace(size, '').replace('.png','.gif');
+ 			return linkHref;
  		},
 
  		addControl: function(){
@@ -47,16 +44,52 @@
 
  		addEvents: function(){
  			var gp=this;
- 			this.playElement.click( function(){
- 				gp.previewElement.hide();
+ 			gp.playElement.click( function(){
  				gp.playElement.hide();
+ 				gp.addLoadingImage();
+ 				gp.loadGif();
+ 			});
+ 			if(this.options.linkEnabled){
+	 			gp.wrapper.mouseover(function(){
+	 				gp.linkElement.show();
+	 			});
+	 			gp.wrapper.mouseout(function(){
+	 				gp.linkElement.hide();
+	 			});
+ 			}
+ 		},
+
+ 		loadGif: function(){
+ 			var gifSrc=this.getGifSrc();
+ 			var gifWidth=this.previewElement.width();
+ 			var gifHeight=this.previewElement.height();
+ 			var gp=this;
+ 			$("<img src='" + gifSrc + "' width='"+ gifWidth + "' height=' "+ gifHeight +" '/>").load( function(){
+ 				$(this).css('cursor','pointer');
+ 				gp.gifElement=$(this);
+				gp.previewElement.hide();
  				gp.wrapper.append(gp.gifElement);
- 				gp.gifElement.click( function(){
- 					gp.gifElement.remove();
+ 				gp.loadingElement.hide();
+ 				
+ 				$(this).click( function(){
+ 					$(this).remove();
  					gp.previewElement.show();
  					gp.playElement.show();
- 				})
- 			});
+ 				});
+			});
+ 			
+ 		},
+
+ 		addLoadingImage: function(){
+ 			var loadingImg="img/loading.gif";
+ 			this.loadingElement=$("<img src='" + loadingImg + "' class='gif-loading'>");
+ 			this.wrapper.append(this.loadingElement);
+ 		},
+
+ 		addViewFullSizeLink: function(){
+ 			var linkHref= this.wrapper.parent().attr('href');
+ 			this.linkElement = $("<a href='" + linkHref + "' class='gif-view-full'>View full size</a>");
+ 			this.wrapper.append(this.linkElement);
  		}
 
  	}
@@ -70,7 +103,8 @@
  	}
 
  	$.fn.gifplayer.defaults = {
- 		playText: 'play'
+ 		playText: 'play',
+ 		linkEnabled: true
  	};
 
  })(jQuery);
