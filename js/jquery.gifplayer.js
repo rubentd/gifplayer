@@ -27,11 +27,17 @@
  			this.wrapper.css('width', this.previewElement.width());
  			this.wrapper.css('height', this.previewElement.height());
  			this.previewElement.addClass('gifplayer');
+ 			this.previewElement.css('cursor','pointer');
  		},
 
  		getGifSrc: function(){
- 			var size = "-" + this.previewElement.width() + 'x' + this.previewElement.height();
- 			var gifSrc = 	this.previewElement.attr('src').replace(size, '').replace('.png','.gif');
+ 			console.log(this.previewElement.attr('data-gif'));
+ 			var gifSrc;
+ 			if(this.previewElement.attr('data-gif')){
+ 				gifSrc = this.previewElement.attr('data-gif');
+ 			}else{
+ 				gifSrc = this.previewElement.attr('src').replace('.png','.gif');
+ 			}
  			return gifSrc;
  		},
 
