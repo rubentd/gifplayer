@@ -35,10 +35,6 @@ a.gif-view-full{
     font-weight:bold;
 }
 
-.icon-maximize:before {
-    content: "\f0b2 ";
-}
-
 @media (max-width : 480px) {
     a.gif-view-full{
         display:inline-block !important;
