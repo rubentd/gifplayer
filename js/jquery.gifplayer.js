@@ -36,13 +36,13 @@
  			if(this.previewElement.attr('data-gif')){
  				gifSrc = this.previewElement.attr('data-gif');
  			}else{
- 				gifSrc = this.previewElement.attr('src').replace('.png','.gif');
+ 				gifSrc = this.previewElement.attr('src').replace(/\.[^/.]+$/, ".gif")
  			}
  			return gifSrc;
  		},
 
  		addControl: function(){
- 			this.playElement = $("<ins class='play-gif'>" + this.options.playText + "</ins>");
+ 			this.playElement = $("<ins class='play-gif'>" + this.options.label + "</ins>");
  			this.playElement.css('left', this.previewElement.width()/2 + this.playElement.width()/2);
  			this.wrapper.append(this.playElement);
  		},
@@ -115,7 +115,7 @@
  	}
 
  	$.fn.gifplayer.defaults = {
- 		playText: 'gif'
+ 		label: 'gif'
  	};
 
  })(jQuery);

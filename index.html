@@ -1,65 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>gifplayer. Customizable jquery plugin to play and stop animated gifs. Similar to 9gag's</title>
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/gifplayer.css">
-    <link rel="stylesheet" href="css/examples.css">
-    <link rel="icon" type="image/png" href="http://rubentd.com/img/favicon.png">
+	<meta charset="utf-8">
+	<title>gifplayer. Customizable jquery plugin to play and stop animated gifs. Similar to 9gag's</title>
+	<link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" href="css/gifplayer.css">
+	<link rel="stylesheet" href="css/examples.css">
+	<link rel="icon" type="image/png" href="http://rubentd.com/img/favicon.png">
 </head>
 
 <body id="home">
 
 	<main class = "main options">
 
-    	<h1>gifplayer</h1>
-    	<p>Customizable jquery plugin to play and stop animated gifs. Similar to 9gag's</p>
-        <p>By <a href="http://www.twitter.com/darthrubens">@darthrubens</a></p>
+		<h1>gifplayer</h1>
+		<p>Customizable jquery plugin to play and stop animated gifs. Similar to 9gag's</p>
+		<p>By <a href="http://www.twitter.com/darthrubens">@darthrubens</a></p>
 
 		<section>
-    		<img id="banana" src="img/banana.png" data-gif="img/banana-animated.gif" class="gifs"/><br>
-            <img id="mario" src="img/mario.png" class="gifs"/><br>
-            <img id="cheetah" src="img/cheetah.png" class="gifs"/>
-        </section>
+			<img id="banana" src="img/banana.png" data-gif="img/banana-animated.gif" class="gifs"/><br>
+		</section>
 
-    	<section>
-    		<h2>Downloads:</h2>
+		<section>
+			<h2>Usage</h2>
+			<ol class="instructions">
+				<li>Add a static version of the gif file to your website</li>
+				<li>Add a 'data-gif' attribute with the path to the animated gif image, or simply have an
+					image with the same same and the .gif extension in the same folder of the 'preview' image</li>
+					<li>Include jquery, gifplayer.js and gifplayer.css on your site</li>
+					<li>Call the .gifplayer() method for the desired images</li>
+				</ol>
+				<br><br>
+				<h2>Options</h2>
+				<table class="options">
+					<thead>
+						<tr>
+							<th>Option</th>
+							<th>Values</th>
+							<th>Default</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>label</td>
+							<td>A value for the label in the circle over the image</td>
+							<td>'gif'</td>
+						</tr>
+					</tbody>
+				</table>
+				<br><br>
+				<h2>Code example</h2>
+				<div class ="code">
+					<script src="https://gist.github.com/darthrubens/8758616.js"></script>         
+				</div>
+			</section>
+			
+			<section>    
+				<img id="cheetah" src="img/cheetah.png" class="gifs"/><br>
+				<img id="mario" src="img/mario.png" class="gifs"/>
+			</section>
 
-    		<ul>
-                <li>
-                    <a href="js/jquery.gifplayer.js" target="_blank">jquery.gifplayer.js</a>
-                </li>
-                <li>
-                    <a href="css/gifplayer.css" target="_blank">gifplayer.css</a>
-                </li>
-            </ul>
-            <br>
-            Minified
-            <ul>   
-                <li>
-                    <a href="js/jquery.gifplayer.min.js" target="_blank">jquery.gifplayer.min.js</a>
-                </li>
-                <li>
-                    <a href="css/gifplayer.min.css" target="_blank">gifplayer.min.css</a>
-                </li>
-            </ul>
-    	</section>
+			<section>
+				<h2>Downloads</h2>
+				<ul>
+					<li>
+						<a href="js/jquery.gifplayer.js" target="_blank">jquery.gifplayer.js</a>
+					</li>
+					<li>
+						<a href="css/gifplayer.css" target="_blank">gifplayer.css</a>
+					</li>
+				</ul>
+				<br>
+				Minified
+				<ul>   
+					<li>
+						<a href="js/jquery.gifplayer.min.js" target="_blank">jquery.gifplayer.min.js</a>
+					</li>
+					<li>
+						<a href="css/gifplayer.min.css" target="_blank">gifplayer.min.css</a>
+					</li>
+				</ul>
+			</section>
 
-    	<section>
-    		<a href="https://github.com/darthrubens/gifplayer">View on Github</a>
-    	</section>
+			<section>
+				<a href="https://github.com/darthrubens/gifplayer">View on Github</a>
+			</section>
 
-        <section class="social">
-            <a href="https://twitter.com/share" class="twitter-share-button" data-via="darthrubens" data-related="darthrubens">Tweet</a>
-            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-            <a href="https://twitter.com/darthrubens" class="twitter-follow-button" data-show-count="false">Follow @darthrubens</a>
-            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-        </section>
-    </main>
-    <script src="js/jquery-1.10.2.min.js"></script>
-    <script src="js/jquery.gifplayer.js"></script>
-    <script src="js/index.js"></script>
+			<section class="social">
+				<a href="https://twitter.com/share" class="twitter-share-button" data-via="darthrubens" data-related="darthrubens">Tweet</a>
+				<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+				<a href="https://twitter.com/darthrubens" class="twitter-follow-button" data-show-count="false">Follow @darthrubens</a>
+				<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+			</section>
+		</main>
+		<script src="js/jquery-1.10.2.min.js"></script>
+		<script src="js/jquery.gifplayer.js"></script>
+		<script src="js/index.js"></script>
 
-</body>
-</html>
+	</body>
+	</html>

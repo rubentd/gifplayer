@@ -52,19 +52,8 @@ section{
 	margin:0 10px;
 }
 
-.box{
-	float: left;
-	padding: 10px;
-	background-color: #eee;
-	width:100px;
-	margin:0 10px 10px 0px;
-	text-align:center;
-}
-
-.box.fixed-box{
-	position:fixed;
-	right:50px;
-	top:50px;
+ol{
+	list-style-type: decimal;
 }
 
 hr{
