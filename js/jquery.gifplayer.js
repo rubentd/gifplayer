@@ -9,6 +9,7 @@
 
  	function GifPlayer(preview, options){
  		this.previewElement=preview;
+ 		this.spinnerElement=$("<div class = 'spinner'></div>");
  		this.options=options;
  	}
 
@@ -16,10 +17,8 @@
 
  		activate: function(){
  			this.wrap();
+ 			this.addSpinner();
  			this.addControl();
- 			if(this.options.linkEnabled){
- 				this.addViewFullSizeLink();
- 			}
  			this.addEvents();
  		},
 
@@ -27,13 +26,13 @@
  			this.wrapper = this.previewElement.wrap("<div class='gifplayer-wrapper'></div>").parent();
  			this.wrapper.css('width', this.previewElement.width());
  			this.wrapper.css('height', this.previewElement.height());
+ 			this.previewElement.addClass('gifplayer');
  		},
-
 
  		getGifSrc: function(){
  			var size = "-" + this.previewElement.width() + 'x' + this.previewElement.height();
- 			var linkHref = 	this.previewElement.attr('src').replace(size, '').replace('.png','.gif');
- 			return linkHref;
+ 			var gifSrc = 	this.previewElement.attr('src').replace(size, '').replace('.png','.gif');
+ 			return gifSrc;
  		},
 
  		addControl: function(){
@@ -44,19 +43,28 @@
 
  		addEvents: function(){
  			var gp=this;
- 			gp.playElement.click( function(){
- 				gp.playElement.hide();
- 				gp.addLoadingImage();
+ 			gp.playElement.click( function(e){
+ 				$(this).hide();
+ 				gp.spinnerElement.show();
  				gp.loadGif();
+ 				e.preventDefault();
+   				e.stopPropagation();
  			});
- 			if(this.options.linkEnabled){
-	 			gp.wrapper.mouseover(function(){
-	 				gp.linkElement.show();
-	 			});
-	 			gp.wrapper.mouseout(function(){
-	 				gp.linkElement.hide();
-	 			});
- 			}
+ 			gp.spinnerElement.click( function(e){
+ 				$(this).hide();
+ 				gp.playElement.show();
+	 			e.preventDefault();
+   				e.stopPropagation();
+ 			});
+ 			gp.previewElement.click( function(e){
+ 				if(gp.playElement.is(':visible')){
+	 				gp.playElement.hide();
+	 				gp.spinnerElement.show();
+	 				gp.loadGif();
+ 				}
+ 				e.preventDefault();
+   				e.stopPropagation();
+ 			});
  		},
 
  		loadGif: function(){
@@ -66,30 +74,28 @@
  			var gp=this;
  			$("<img src='" + gifSrc + "' width='"+ gifWidth + "' height=' "+ gifHeight +" '/>").load( function(){
  				$(this).css('cursor','pointer');
+ 				$(this).css('position','absolute');
+ 				$(this).css('top','0');
+ 				$(this).css('left','0');
  				gp.gifElement=$(this);
 				gp.previewElement.hide();
  				gp.wrapper.append(gp.gifElement);
- 				gp.loadingElement.hide();
+ 				gp.spinnerElement.hide();
  				
- 				$(this).click( function(){
+ 				$(this).click( function(e){
  					$(this).remove();
  					gp.previewElement.show();
  					gp.playElement.show();
+ 					e.preventDefault();
+ 					e.stopPropagation();
  				});
 			});
  			
  		},
 
- 		addLoadingImage: function(){
- 			var loadingImg="img/loading.gif";
- 			this.loadingElement=$("<img src='" + loadingImg + "' class='gif-loading'>");
- 			this.wrapper.append(this.loadingElement);
- 		},
-
- 		addViewFullSizeLink: function(){
- 			var linkHref= this.wrapper.parent().attr('href');
- 			this.linkElement = $("<a href='" + linkHref + "' class='gif-view-full'>View full size</a>");
- 			this.wrapper.append(this.linkElement);
+ 		addSpinner: function(){
+ 			this.wrapper.append(this.spinnerElement);
+ 			this.spinnerElement.hide();
  		}
 
  	}
@@ -103,8 +109,7 @@
  	}
 
  	$.fn.gifplayer.defaults = {
- 		playText: 'play',
- 		linkEnabled: true
+ 		playText: 'gif'
  	};
 
  })(jQuery);
