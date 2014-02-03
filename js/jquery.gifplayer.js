@@ -31,14 +31,9 @@
  		},
 
  		getGifSrc: function(){
- 			console.log(this.previewElement.attr('data-gif'));
- 			var gifSrc;
- 			if(this.previewElement.attr('data-gif')){
- 				gifSrc = this.previewElement.attr('data-gif');
- 			}else{
- 				gifSrc = this.previewElement.attr('src').replace(/\.[^/.]+$/, ".gif")
- 			}
- 			return gifSrc;
+ 			var size = "-" + this.previewElement.width() + 'x' + this.previewElement.height();
+ 			var linkHref = 	this.previewElement.attr('src').replace(size, '').replace('.png','.gif');
+ 			return linkHref;
  		},
 
  		addControl: function(){
@@ -61,6 +56,10 @@
  				gp.playElement.show();
 	 			e.preventDefault();
    				e.stopPropagation();
+   				gp.gifElement.off('load').on( 'load', function(ev){
+ 					ev.preventDefault();
+ 					ev.stopPropagation();
+ 				});
  			});
  			gp.previewElement.click( function(e){
  				if(gp.playElement.is(':visible')){
@@ -77,13 +76,13 @@
  			var gifSrc=this.getGifSrc();
  			var gifWidth=this.previewElement.width();
  			var gifHeight=this.previewElement.height();
+ 			this.gifElement=$("<img src='" + gifSrc + "' width='"+ gifWidth + "' height=' "+ gifHeight +" '/>");
  			var gp=this;
- 			$("<img src='" + gifSrc + "' width='"+ gifWidth + "' height=' "+ gifHeight +" '/>").load( function(){
+ 			this.gifElement.load( function(){
  				$(this).css('cursor','pointer');
  				$(this).css('position','absolute');
  				$(this).css('top','0');
  				$(this).css('left','0');
- 				gp.gifElement=$(this);
 				gp.previewElement.hide();
  				gp.wrapper.append(gp.gifElement);
  				gp.spinnerElement.hide();
