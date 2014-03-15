@@ -80,3 +80,7 @@ a.gif-view-full{
     from {transform: rotate(0deg);}
     to {transform: rotate(359deg);}
 }
+
+.icon-maximize:before{;
+    content: "\f0b2";
+}

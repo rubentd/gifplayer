@@ -11,6 +11,7 @@
  		this.previewElement=preview;
  		this.spinnerElement=$("<div class = 'spinner'></div>");
  		this.options=options;
+ 		this.gifLoaded=false;
  	}
 
  	GifPlayer.prototype = {
@@ -44,24 +45,14 @@
 
  		addEvents: function(){
  			var gp=this;
- 			gp.playElement.click( function(e){
+ 			gp.playElement.on( 'click', function(e){
  				$(this).hide();
  				gp.spinnerElement.show();
  				gp.loadGif();
  				e.preventDefault();
    				e.stopPropagation();
  			});
- 			gp.spinnerElement.click( function(e){
- 				$(this).hide();
- 				gp.playElement.show();
-	 			e.preventDefault();
-   				e.stopPropagation();
-   				gp.gifElement.off('load').on( 'load', function(ev){
- 					ev.preventDefault();
- 					ev.stopPropagation();
- 				});
- 			});
- 			gp.previewElement.click( function(e){
+ 			gp.previewElement.on( 'click', function(e){
  				if(gp.playElement.is(':visible')){
 	 				gp.playElement.hide();
 	 				gp.spinnerElement.show();
@@ -70,15 +61,24 @@
  				e.preventDefault();
    				e.stopPropagation();
  			});
+ 			gp.spinnerElement.on('click', function(e){
+ 				e.preventDefault();
+   				e.stopPropagation();
+ 			});
  		},
 
  		loadGif: function(){
+ 			if(!this.gifLoaded){
+ 				this.enableAbort();
+ 			}
  			var gifSrc=this.getGifSrc();
  			var gifWidth=this.previewElement.width();
  			var gifHeight=this.previewElement.height();
  			this.gifElement=$("<img src='" + gifSrc + "' width='"+ gifWidth + "' height=' "+ gifHeight +" '/>");
  			var gp=this;
  			this.gifElement.load( function(){
+ 				gp.gifLoaded=true;
+ 				gp.resetEvents();
  				$(this).css('cursor','pointer');
  				$(this).css('position','absolute');
  				$(this).css('top','0');
@@ -96,6 +96,35 @@
  				});
 			});
  			
+ 		},
+
+ 		enableAbort: function(){
+ 			var gp = this;
+ 			this.previewElement.click( function(e){
+ 				gp.abortLoading(e);
+ 			});
+ 			this.spinnerElement.click( function(e){
+ 				gp.abortLoading(e);
+ 			});
+ 		},
+
+ 		abortLoading: function(e){
+ 			this.spinnerElement.hide();
+			this.playElement.show();
+			e.preventDefault();
+			e.stopPropagation();
+			this.gifElement.off('load').on( 'load', function(ev){
+				ev.preventDefault();
+				ev.stopPropagation();
+			});
+			this.resetEvents();
+ 		},
+
+ 		resetEvents: function(){
+ 			this.previewElement.off('click');
+			this.playElement.off('click');
+			this.spinnerElement.off('click');
+			this.addEvents();
  		},
 
  		addSpinner: function(){
