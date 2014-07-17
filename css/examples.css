@@ -7,6 +7,10 @@ a, a:hover, a:visited{
 	color:#666;
 }
 
+img{
+	width:auto !important;
+}
+
 .logo{
 	width:150px;
 	height:86px;
