@@ -1,13 +1,13 @@
 gifplayer
 ===========
 
-Customizable jquery plugin to play and stop animated gifs. Similar to 9gag's
+Customizable jquery plugin to play and stop animated gifs. Similar to 9gag's.
 New: Video support (webm, mp4)
 
 ###Basic Usage
 
 1. Add a preview of the gif or video file to your website
-2. Specify a ‘data-src’ attribute with the path to the animated gif or video, or simply have an image with the same same and the .gif extension in the same folder of the ‘preview’ image
+2. Specify a ‘data-src’ attribute with the path to the animated gif or video, or simply have an image with the same name and the .gif extension in the same folder of the ‘preview’ image
 3. Include jquery.js, gifplayer.js and gifplayer.css on your site
 4. Call the .gifplayer() method for the desired images
 
