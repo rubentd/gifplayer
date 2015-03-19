@@ -15,7 +15,7 @@ New: Video support (webm, mp4)
 <img id="banana" src="img/banana.png"/>
  
 <script>
-	$('.gifs').gifplayer();
+	$('#banana').gifplayer();
 </script>
 ```
 
