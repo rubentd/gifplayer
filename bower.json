@@ -1,33 +1,36 @@
 {
-    "name": "jquery.gifplayer",
-    "description": "Customizable jquery plugin to play and stop animated gifs. Similar to 9gag's. Supports video",
-    "version": "0.2.1",
-    "main" : [
-        "jquery.gifplayer.js",
-        "gifplayer.css"
-    ],
-    "license": [
-        {
-            "type": "MIT",
-            "url": "https://github.com/darthrubens/gifplayer/blob/master/LICENSE"
-        }
-    ],
-    "keywords": [
-        "gif",
-        "9gag",
-        "video",
-	    "animated",
-	    "player"
-    ],
-    "authors": [
-        {"name": "Ruben Torres", "email": "rubentdlh@gmail.com"}
-    ],
-    "homepage": "http://rubentd.com/gifplayer",
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/darthrubens/gifplayer.git"
-    },
-    "dependencies": {
-        "jquery": ">=1.5"
+  "name": "jquery.gifplayer",
+  "description": "Customizable jquery plugin to play and stop animated gifs. Similar to 9gag's. Supports video",
+  "version": "0.2.1",
+  "main" : [
+    "jquery.gifplayer.js",
+    "gifplayer.css"
+  ],
+  "license": [
+    {
+     "type": "MIT",
+      "url": "https://github.com/darthrubens/gifplayer/blob/master/LICENSE"
     }
+  ],
+  "keywords": [
+    "gif",
+    "9gag",
+    "video",
+    "animated",
+    "player"
+  ],
+  "authors": [
+    {
+      "name": "Ruben Torres", 
+      "email": "rubentdlh@gmail.com"
+    }
+  ],
+  "homepage": "http://rubentd.com/gifplayer",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/darthrubens/gifplayer.git"
+  },
+  "dependencies": {
+  "jquery": ">=1.5"
+  }
 }
