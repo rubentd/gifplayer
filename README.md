@@ -33,7 +33,7 @@ $('#banana').gifplayer({ label: 'play' });
 ```
 
 Option	|Values	|Default | Allowed values
---- | --- | ---
+--- | --- | --- | ---
 label	| A value for the label in the circle over the image	|‘gif’ |
 playOn	| Event that triggers playing the animated gif	|'click', |
 mode | Load an animated gif file or a video | 'gif' | 'gif', 'video'
