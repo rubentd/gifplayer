@@ -38,5 +38,5 @@ label	| A value for the label in the circle over the image	|‘gif’
 playOn	| Event that triggers playing the animated gif	|'click', 'hover', 'auto'
 mode | Load an animated gif file or a video | 'gif', 'video'
 src | Source for the animation |
-waitUntilLoaded | Would you wait until the animation file has been fully loaded to play, or start playing right away | true, false
+wait | Would you wait until the animation file has been fully loaded to play, or start playing right away | true, false
 
