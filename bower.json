@@ -1,14 +1,14 @@
 {
-    "name": "gifplayer",
-    "title": "gifplayer",
-    "description": "Customizable jquery plugin to play and stop animated gifs. Similar to 9gag's",
+    "name": "jquery.gifplayer",
+    "title": "jquery.gifplayer",
+    "description": "Customizable jquery plugin to play and stop animated gifs. Similar to 9gag's. Supports video",
     "keywords": [
         "gif",
         "9gag",
 	"animated",
 	"player"
     ],
-    "version": "0.2.0",
+    "version": "0.2.1",
     "author": {
         "name": "Ruben Torres"
     },
@@ -28,7 +28,7 @@
     "main" : [
         "js/jquery.gifplayer.js",
         "css/gifplayer.css"
-    ]
+    ],
     "homepage": "http://rubentd.com/gifplayer",
     "docs": "http://rubentd.com/gifplayer",
     "download": "http://rubentd.com/gifplayer",

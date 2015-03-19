@@ -1,5 +1,5 @@
 /* 
-* Gifplayer v0.2.0
+* Gifplayer v0.2.1
 * Customizable jquery plugin to play and stop animated gifs. Similar to 9gag's
 * (c)2014 Rubén Torres - rubentdlh@gmail.com
 * Released under the MIT license
