@@ -5,8 +5,9 @@
     "keywords": [
         "gif",
         "9gag",
-	"animated",
-	"player"
+        "video"
+	   "animated",
+	   "player"
     ],
     "version": "0.2.1",
     "author": {
@@ -26,8 +27,8 @@
         }
     ],
     "main" : [
-        "js/jquery.gifplayer.js",
-        "css/gifplayer.css"
+        "jquery.gifplayer.js",
+        "gifplayer.css"
     ],
     "homepage": "http://rubentd.com/gifplayer",
     "docs": "http://rubentd.com/gifplayer",
