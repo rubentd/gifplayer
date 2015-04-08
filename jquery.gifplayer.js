@@ -5,6 +5,26 @@
 * Released under the MIT license
 */
 
+//Aux function to check if element is on the viewport 
+$.fn.isOnScreen = function(){
+	
+	var win = $(window);
+	
+	var viewport = {
+		top : win.scrollTop(),
+		left : win.scrollLeft()
+	};
+	viewport.right = viewport.left + win.width();
+	viewport.bottom = viewport.top + win.height();
+	
+	var bounds = this.offset();
+    bounds.right = bounds.left + this.outerWidth();
+    bounds.bottom = bounds.top + this.outerHeight();
+	
+    return (!(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom));
+	
+};
+
 (function($) {
 
 	function GifPlayer(preview, options){
@@ -24,6 +44,7 @@
 
 		//create a wrapper with relative positioning
 		wrap: function(){
+			this.previewElement.addClass('gifplayer-ready');
 			this.wrapper = this.previewElement.wrap("<div class='gifplayer-wrapper'></div>").parent();
 			this.wrapper.css('width', this.previewElement.width());
 			this.wrapper.css('height', this.previewElement.height());
@@ -58,6 +79,7 @@
 		addEvents: function(){
 			var gp=this;
 			var playOn = this.getOption('playOn');
+			var mode = this.getOption('mode');
 
 			switch(playOn){
 				case 'click':
@@ -77,15 +99,21 @@
 						e.stopPropagation();
 					});
 					break;
-				case 'auto':
-					$(window).on('DOMContentLoaded load resize scroll', function(){
-						if(gp.isVisibleInViewport()){
-							gp.loadAnimation();
-						}
-					}); 
-					break;
 			}
-			
+			//Check if visible
+			gp.interval = setInterval( function(){
+				if(gp.isVisibleInViewport()){
+					if(playOn == 'auto' && !gp.animationLoaded){
+						gp.loadAnimation();
+					}
+				}else if(gp.animationLoaded){
+					if(mode == 'gif'){
+						gp.stopGif();
+					}else if(mode == 'video'){
+						gp.pauseVideo();
+					}
+				}
+			}, 800);
 		},
 
 		loadAnimation: function(){
@@ -96,6 +124,13 @@
 			}else if(mode == 'video'){
 				this.loadVideo();
 			}
+		},
+
+		stopGif: function(){
+			this.gifElement.hide();
+			this.previewElement.show();
+			this.playElement.show();
+			this.resetEvents();
 		},
 
 		getGif: function(){
@@ -140,7 +175,7 @@
 			var gifWidth=this.previewElement.width();
 			var gifHeight=this.previewElement.height();
 			
-			this.gifElement=$("<img width='"+ gifWidth + "' height=' "+ gifHeight +" '/>");
+			this.gifElement=$("<img class='gp-gif-element' width='"+ gifWidth + "' height=' "+ gifHeight +" '/>");
 
 			var wait = this.getOption('wait');
 			if(wait){
@@ -183,7 +218,7 @@
  			var videoSrcWebm=this.getWebm();
  			var videoWidth=this.previewElement.width();
  			var videoHeight=this.previewElement.height();
- 			gp.videoElement=$('<video width="' + videoWidth + 'px" height="' + videoHeight + '" style="margin:0 auto;width:' + videoWidth + 'px;height:' + videoHeight + 'px;" autoplay="autoplay" loop="loop" muted="muted" poster="' + gp.previewElement.attr('src') + '"><source type="video/mp4" src="' + videoSrcMp4 + '"><source type="video/webm" src="' + videoSrcWebm + '"></video>');
+ 			gp.videoElement=$('<video class="gp-video-element" width="' + videoWidth + 'px" height="' + videoHeight + '" style="margin:0 auto;width:' + videoWidth + 'px;height:' + videoHeight + 'px;" autoplay="autoplay" loop="loop" muted="muted" poster="' + gp.previewElement.attr('src') + '"><source type="video/mp4" src="' + videoSrcMp4 + '"><source type="video/webm" src="' + videoSrcWebm + '"></video>');
 
  			var playVideo = function(){
  				gp.spinnerElement.hide();
@@ -199,6 +234,7 @@
  			var checkLoad = function(){
  				if(gp.videoElement[0].readyState === 4){
 					playVideo();
+					gp.animationLoaded=true;
 				}else{
 					setTimeout(checkLoad, 100);
 				}
@@ -266,35 +302,57 @@
 		},
 
 		isVisibleInViewport: function(){
-			var el = this.previewElement[0];
-			
-			var top = el.offsetTop;
-			var left = el.offsetLeft;
-			var width = el.offsetWidth;
-			var height = el.offsetHeight;
-
-			while(el.offsetParent) {
-				el = el.offsetParent;
-				top += el.offsetTop;
-				left += el.offsetLeft;
-			}
-
-			return (
-				top < (window.pageYOffset + window.innerHeight) &&
-				left < (window.pageXOffset + window.innerWidth) &&
-				(top + height) > window.pageYOffset &&
-				(left + width) > window.pageXOffset
-			);
+			return this.wrapper.isOnScreen();
 		}
 
 	};
 
 	$.fn.gifplayer = function(options) {
-		return this.each(function(){
-			options = $.extend({}, $.fn.gifplayer.defaults, options);
-			var gifplayer = new GifPlayer($(this), options);
-			gifplayer.activate();
-		});	
+
+		 // Check if we should operate with some method
+		if (/^(play|pause|stop)$/i.test(options)) {
+			// Normalize method's name
+      		options = options.toLowerCase();
+      		if($(this).hasClass('gifplayer-ready')){
+      			//Setup gifplayer object
+      			var gp = new GifPlayer($(this), null);
+      			gp.options = {};
+      			gp.wrapper = $(this).parent();
+      			gp.spinnerElement = gp.wrapper.find('.spinner');
+      			gp.playElement = gp.wrapper.find('.play-gif');
+      			gp.gifElement = gp.wrapper.find('.gp-gif-element');
+      			gp.videoElement = gp.wrapper.find('.gp-video-element');
+      			
+      			if(gp.gifElement != undefined){
+      				gp.options.mode = 'gif';
+      			}else if(gp.videoElement != undefined){
+      				gp.options.mode = 'video';
+      			}
+
+      			switch(options){
+      				case 'play':
+      					console.log('play');
+      					gp.playElement.trigger('click');
+      					break;
+      				case 'stop':
+      					console.log('stop');
+      					if(gp.options.mode == 'gif'){
+      						gp.stopGif();
+      					}else if( gp.options.mode == 'video'){
+      						gp.pauseVideo();
+      					}
+      					break;
+      			}
+      		}else{
+      			console.log('Not a valid gifplayer element');
+      		}
+		}else{ //Create instance
+			return this.each(function(){
+				options = $.extend({}, $.fn.gifplayer.defaults, options);
+				var gifplayer = new GifPlayer($(this), options);
+				gifplayer.activate();
+			});
+		}	
 	};
 
 	$.fn.gifplayer.defaults = {
