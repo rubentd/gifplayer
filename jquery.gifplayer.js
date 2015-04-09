@@ -317,6 +317,7 @@ $.fn.isOnScreen = function(){
       			//Setup gifplayer object
       			var gp = new GifPlayer($(this), null);
       			gp.options = {};
+      			gp.options = $.extend({}, $.fn.gifplayer.defaults, gp.options);
       			gp.wrapper = $(this).parent();
       			gp.spinnerElement = gp.wrapper.find('.spinner');
       			gp.playElement = gp.wrapper.find('.play-gif');
