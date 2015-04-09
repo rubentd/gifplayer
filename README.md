@@ -43,3 +43,14 @@ mp4 | Source for the mp4 video file (video mode)| Default option is the same nam
 webm | Source for the webm video file (video mode)| Default option is the same name of the preview imagem replacing extension to .webm |
 wait | Would you wait until the animation file has been fully loaded to play, or start playing right away | false | true, false
 
+###Methods (beta)
+
+Use these methods to play and stop the player programatically 
+
+```javascript
+$('#banana').gifplayer('play');
+```
+
+```javascript
+$('#banana').gifplayer('stop');
+```
