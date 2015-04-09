@@ -1,5 +1,6 @@
 gifplayer
 ===========
+[![Bower version](https://badge.fury.io/bo/jquery.gifplayer.svg)](http://badge.fury.io/bo/jquery.gifplayer)
 
 Customizable jquery plugin to play and stop animated gifs. Similar to 9gag's.
 New: Video support (webm, mp4)
