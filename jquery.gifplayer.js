@@ -5,26 +5,6 @@
 * Released under the MIT license
 */
 
-//Aux function to check if element is on the viewport 
-$.fn.isOnScreen = function(){
-	
-	var win = $(window);
-	
-	var viewport = {
-		top : win.scrollTop(),
-		left : win.scrollLeft()
-	};
-	viewport.right = viewport.left + win.width();
-	viewport.bottom = viewport.top + win.height();
-	
-	var bounds = this.offset();
-    bounds.right = bounds.left + this.outerWidth();
-    bounds.bottom = bounds.top + this.outerHeight();
-	
-    return (!(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom));
-	
-};
-
 (function($) {
 
 	function GifPlayer(preview, options){
@@ -100,20 +80,6 @@ $.fn.isOnScreen = function(){
 					});
 					break;
 			}
-			//Check if visible
-			gp.interval = setInterval( function(){
-				if(gp.isVisibleInViewport()){
-					if(playOn == 'auto' && !gp.animationLoaded){
-						gp.loadAnimation();
-					}
-				}else if(gp.animationLoaded){
-					if(mode == 'gif'){
-						gp.stopGif();
-					}else if(mode == 'video'){
-						gp.pauseVideo();
-					}
-				}
-			}, 800);
 		},
 
 		loadAnimation: function(){
@@ -299,10 +265,6 @@ $.fn.isOnScreen = function(){
 			this.playElement.off('click');
 			this.spinnerElement.off('click');
 			this.addEvents();
-		},
-
-		isVisibleInViewport: function(){
-			return this.wrapper.isOnScreen();
 		}
 
 	};
