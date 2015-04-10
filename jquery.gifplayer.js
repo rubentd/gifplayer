@@ -43,63 +43,63 @@
 			if(dataOption != undefined
 				&& dataOption != ''){
 				return dataOption;
-			}else{
-				return this.options[option];
-			}
-		},
+		}else{
+			return this.options[option];
+		}
+	},
 
-		addControl: function(){
-			var label = this.getOption('label');
-			this.playElement = $("<ins class='play-gif'>" + label + "</ins>");
-			this.wrapper.append(this.playElement);
-			this.playElement.css('top', this.previewElement.height()/2 - this.playElement.height()/2);
-			this.playElement.css('left', this.previewElement.width()/2 - this.playElement.width()/2);
-		},
+	addControl: function(){
+		var label = this.getOption('label');
+		this.playElement = $("<ins class='play-gif'>" + label + "</ins>");
+		this.wrapper.append(this.playElement);
+		this.playElement.css('top', this.previewElement.height()/2 - this.playElement.height()/2);
+		this.playElement.css('left', this.previewElement.width()/2 - this.playElement.width()/2);
+	},
 
-		addEvents: function(){
-			var gp=this;
-			var playOn = this.getOption('playOn');
-			var mode = this.getOption('mode');
+	addEvents: function(){
+		var gp=this;
+		var playOn = this.getOption('playOn');
+		var mode = this.getOption('mode');
 
-			switch(playOn){
-				case 'click':
-					gp.playElement.on( 'click', function(e){
-						gp.loadAnimation();
-					});
-					gp.previewElement.on( 'click', function(e){
-						gp.loadAnimation();
-						e.preventDefault();
-						e.stopPropagation();
-					});
-					break;
-				case 'hover':
-					gp.previewElement.on( 'click mouseover', function(e){
-						gp.loadAnimation();
-						e.preventDefault();
-						e.stopPropagation();
-					});
-					break;
-			}
-		},
+		switch(playOn){
+			case 'click':
+			gp.playElement.on( 'click', function(e){
+				gp.loadAnimation();
+			});
+			gp.previewElement.on( 'click', function(e){
+				gp.loadAnimation();
+				e.preventDefault();
+				e.stopPropagation();
+			});
+			break;
+			case 'hover':
+			gp.previewElement.on( 'click mouseover', function(e){
+				gp.loadAnimation();
+				e.preventDefault();
+				e.stopPropagation();
+			});
+			break;
+		}
+	},
 
-		loadAnimation: function(){
-			this.spinnerElement.show();
-			var mode = this.getOption('mode');
-			if(mode == 'gif'){
-				this.loadGif();
-			}else if(mode == 'video'){
-				this.loadVideo();
-			}
-		},
+	loadAnimation: function(){
+		this.spinnerElement.show();
+		var mode = this.getOption('mode');
+		if(mode == 'gif'){
+			this.loadGif();
+		}else if(mode == 'video'){
+			this.loadVideo();
+		}
+	},
 
-		stopGif: function(){
-			this.gifElement.hide();
-			this.previewElement.show();
-			this.playElement.show();
-			this.resetEvents();
-		},
+	stopGif: function(){
+		this.gifElement.hide();
+		this.previewElement.show();
+		this.playElement.show();
+		this.resetEvents();
+	},
 
-		getGif: function(){
+	getGif: function(){
 			//Check if data-gif was set
 			var gif = this.getOption('gif');
 			if(gif != undefined && gif != ''){
@@ -177,41 +177,41 @@
 			
 		},
 
- 		loadVideo: function(){
- 			var gp=this;
+		loadVideo: function(){
+			var gp=this;
 
- 			var videoSrcMp4=this.getMp4();
- 			var videoSrcWebm=this.getWebm();
- 			var videoWidth=this.previewElement.width();
- 			var videoHeight=this.previewElement.height();
- 			gp.videoElement=$('<video class="gp-video-element" width="' + videoWidth + 'px" height="' + videoHeight + '" style="margin:0 auto;width:' + videoWidth + 'px;height:' + videoHeight + 'px;" autoplay="autoplay" loop="loop" muted="muted" poster="' + gp.previewElement.attr('src') + '"><source type="video/mp4" src="' + videoSrcMp4 + '"><source type="video/webm" src="' + videoSrcWebm + '"></video>');
+			var videoSrcMp4=this.getMp4();
+			var videoSrcWebm=this.getWebm();
+			var videoWidth=this.previewElement.width();
+			var videoHeight=this.previewElement.height();
+			gp.videoElement=$('<video class="gp-video-element" width="' + videoWidth + 'px" height="' + videoHeight + '" style="margin:0 auto;width:' + videoWidth + 'px;height:' + videoHeight + 'px;" autoplay="autoplay" loop="loop" muted="muted" poster="' + gp.previewElement.attr('src') + '"><source type="video/mp4" src="' + videoSrcMp4 + '"><source type="video/webm" src="' + videoSrcWebm + '"></video>');
 
- 			var playVideo = function(){
- 				gp.spinnerElement.hide();
+			var playVideo = function(){
+				gp.spinnerElement.hide();
 				gp.previewElement.hide();
 				gp.playElement.hide();
-		 		gp.gifLoaded=true;
-		 		gp.previewElement.hide();
-		 		gp.wrapper.append(gp.videoElement);
-		 		gp.videoPaused = false;
-		 		gp.videoElement[0].play();
- 			}
+				gp.gifLoaded=true;
+				gp.previewElement.hide();
+				gp.wrapper.append(gp.videoElement);
+				gp.videoPaused = false;
+				gp.videoElement[0].play();
+			}
 
- 			var checkLoad = function(){
- 				if(gp.videoElement[0].readyState === 4){
+			var checkLoad = function(){
+				if(gp.videoElement[0].readyState === 4){
 					playVideo();
 					gp.animationLoaded=true;
 				}else{
 					setTimeout(checkLoad, 100);
 				}
- 			};
+			};
 
- 			var wait = this.getOption('wait');
- 			if(wait){
- 				checkLoad();
- 			}else{
- 				playVideo();
- 			}
+			var wait = this.getOption('wait');
+			if(wait){
+				checkLoad();
+			}else{
+				playVideo();
+			}
 			
 			gp.videoElement.on('click', function(){
 				if(gp.videoPaused){
@@ -220,22 +220,23 @@
 					gp.pauseVideo();
 				}
 			});
- 		},
+		},
 
- 		pauseVideo: function(){
- 			var gp = this;
- 			gp.videoPaused = true;
- 			gp.videoElement[0].pause();
- 			gp.playElement.show();
- 			gp.mouseoverEnabled = false;
- 		},
+		pauseVideo: function(){
+			var gp = this;
+			gp.videoPaused = true;
+			gp.videoElement[0].pause();
+			console.log(gp.videoElement);
+			gp.playElement.show();
+			gp.mouseoverEnabled = false;
+		},
 
- 		resumeVideo: function(){
- 			var gp = this;
- 			gp.videoPaused = false;
- 			gp.videoElement[0].play();
- 			gp.playElement.hide();
- 		},
+		resumeVideo: function(){
+			var gp = this;
+			gp.videoPaused = false;
+			gp.videoElement[0].play();
+			gp.playElement.hide();
+		},
 
 		enableAbort: function(){
 			var gp = this;
@@ -271,44 +272,48 @@
 
 	$.fn.gifplayer = function(options) {
 
-		 // Check if we should operate with some method
+		// Check if we should operate with some method
 		if (/^(play|pause|stop)$/i.test(options)) {
-			// Normalize method's name
-      		options = options.toLowerCase();
-      		if($(this).hasClass('gifplayer-ready')){
-      			//Setup gifplayer object
-      			var gp = new GifPlayer($(this), null);
-      			gp.options = {};
-      			gp.options = $.extend({}, $.fn.gifplayer.defaults, gp.options);
-      			gp.wrapper = $(this).parent();
-      			gp.spinnerElement = gp.wrapper.find('.spinner');
-      			gp.playElement = gp.wrapper.find('.play-gif');
-      			gp.gifElement = gp.wrapper.find('.gp-gif-element');
-      			gp.videoElement = gp.wrapper.find('.gp-video-element');
-      			
-      			if(gp.gifElement != undefined){
-      				gp.options.mode = 'gif';
-      			}else if(gp.videoElement != undefined){
-      				gp.options.mode = 'video';
-      			}
 
-      			switch(options){
-      				case 'play':
-      					console.log('play');
-      					gp.playElement.trigger('click');
-      					break;
-      				case 'stop':
-      					console.log('stop');
-      					if(gp.options.mode == 'gif'){
-      						gp.stopGif();
-      					}else if( gp.options.mode == 'video'){
-      						gp.pauseVideo();
-      					}
-      					break;
-      			}
-      		}else{
-      			console.log('Not a valid gifplayer element');
-      		}
+			return this.each( function(){
+				// Normalize method's name
+				options = options.toLowerCase();
+				if($(this).hasClass('gifplayer-ready')){
+					//Setup gifplayer object
+					var gp = new GifPlayer($(this), null);
+					gp.options = {};
+					gp.options = $.extend({}, $.fn.gifplayer.defaults, gp.options);
+					gp.wrapper = $(this).parent();
+					gp.spinnerElement = gp.wrapper.find('.spinner');
+					gp.playElement = gp.wrapper.find('.play-gif');
+					gp.gifElement = gp.wrapper.find('.gp-gif-element');
+					gp.videoElement = gp.wrapper.find('.gp-video-element');
+					
+					if(gp.gifElement.length > 0){
+						gp.options.mode = 'gif';
+					}else if(gp.videoElement.length > 0){
+						gp.options.mode = 'video';
+					}
+
+					switch(options){
+						case 'play':
+							gp.playElement.trigger('click');
+							break;
+						case 'stop':
+							if(!gp.playElement.is(':visible')){
+								if(gp.options.mode == 'gif'){
+									gp.stopGif();
+								}else if( gp.options.mode == 'video'){
+									gp.videoElement.trigger('click');
+								}
+							}
+							break;
+					}
+				}else{
+					console.log('Not a valid gifplayer element');
+				}
+			});
+
 		}else{ //Create instance
 			return this.each(function(){
 				options = $.extend({}, $.fn.gifplayer.defaults, options);
