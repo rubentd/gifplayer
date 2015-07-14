@@ -15,6 +15,8 @@
 
 	GifPlayer.prototype = {
 
+		supportedFormats: ['gif', 'jpeg', 'jpg', 'png'],
+
 		activate: function(){
 			this.wrap();
 			this.addSpinner();
@@ -40,92 +42,79 @@
 
 		getOption: function(option){
 			var dataOption = this.previewElement.data(option.toLowerCase());
-			if(dataOption != undefined
-				&& dataOption != ''){
+			if(dataOption != undefined && dataOption != ''){
 				return dataOption;
-		}else{
-			return this.options[option];
-		}
-	},
+			}else{
+				return this.options[option];
+			}
+		},
 
-	addControl: function(){
-		var label = this.getOption('label');
-		this.playElement = $("<ins class='play-gif'>" + label + "</ins>");
-		this.wrapper.append(this.playElement);
-		this.playElement.css('top', this.previewElement.height()/2 - this.playElement.height()/2);
-		this.playElement.css('left', this.previewElement.width()/2 - this.playElement.width()/2);
-	},
+		addControl: function(){
+			var label = this.getOption('label');
+			this.playElement = $("<ins class='play-gif'>" + label + "</ins>");
+			this.wrapper.append(this.playElement);
+			this.playElement.css('top', this.previewElement.height()/2 - this.playElement.height()/2);
+			this.playElement.css('left', this.previewElement.width()/2 - this.playElement.width()/2);
+		},
 
-	addEvents: function(){
-		var gp=this;
-		var playOn = this.getOption('playOn');
-		var mode = this.getOption('mode');
+		addEvents: function(){
+			var gp=this;
+			var playOn = this.getOption('playOn');
+			var mode = this.getOption('mode');
 
-		switch(playOn){
-			case 'click':
-			gp.playElement.on( 'click', function(e){
-				gp.loadAnimation();
-			});
-			gp.previewElement.on( 'click', function(e){
-				gp.loadAnimation();
-				e.preventDefault();
-				e.stopPropagation();
-			});
-			break;
-			case 'hover':
-			gp.previewElement.on( 'click mouseover', function(e){
-				gp.loadAnimation();
-				e.preventDefault();
-				e.stopPropagation();
-			});
-			break;
-		}
-	},
+			switch(playOn){
+				case 'click':
+				gp.playElement.on( 'click', function(e){
+					gp.loadAnimation();
+				});
+				gp.previewElement.on( 'click', function(e){
+					gp.loadAnimation();
+					e.preventDefault();
+					e.stopPropagation();
+				});
+				break;
+				case 'hover':
+				gp.previewElement.on( 'click mouseover', function(e){
+					gp.loadAnimation();
+					e.preventDefault();
+					e.stopPropagation();
+				});
+				break;
+			}
+		},
 
-	loadAnimation: function(){
-		this.spinnerElement.show();
-		var mode = this.getOption('mode');
-		if(mode == 'gif'){
-			this.loadGif();
-		}else if(mode == 'video'){
-			this.loadVideo();
-		}
-	},
+		loadAnimation: function(){
+			this.spinnerElement.show();
+			this.getOption('onPlay').call(this.previewElement);
+			var mode = this.getOption('mode');
+			if(mode == 'gif'){
+				this.loadGif();
+			}else if(mode == 'video'){
+				this.loadVideo();
+			}
+		},
 
-	stopGif: function(){
-		this.gifElement.hide();
-		this.previewElement.show();
-		this.playElement.show();
-		this.resetEvents();
-	},
+		stopGif: function(){
+			this.gifElement.hide();
+			this.previewElement.show();
+			this.playElement.show();
+			this.resetEvents();
+		},
 
-	getGif: function(){
-			//Check if data-gif was set
+		getFile: function( ext ){
+			// Obtain the resource default path
 			var gif = this.getOption('gif');
 			if(gif != undefined && gif != ''){
 				return gif;
 			}else{
-				return this.previewElement.attr('src').replace('.png', '.gif').replace('.jpg', '.gif');
-			}
-		},
+				replaceString = this.previewElement.attr('src');
 
-		getWebm: function(){
-			//Check if data-gif was set
-			var gif = this.getOption('webm');
-			if(gif != undefined && gif != ''){
-				return gif;
-			}else{
-				return this.previewElement.attr('src').replace('.png', '.webm').replace('.jpg', '.webm');
-			}
-		},
+				for (i = 0; i < this.supportedFormats.length; i++) {
+					pattrn = new RegExp( this.supportedFormats[i]+'$', 'i' );
+					replaceString = replaceString.replace( pattrn, ext );
+				}
 
-		getMp4: function(){
-			//Check if data-gif was set
-			var gif = this.getOption('mp4');
-			if(gif != undefined && gif != ''){
-				return gif;
-			}else{
-				return this.previewElement.attr('src').replace('.png', '.mp4').replace('.jpg', '.mp4');
+				return replaceString;
 			}
 		},
 
@@ -137,7 +126,7 @@
 			if(!this.animationLoaded){
 				this.enableAbort();
 			}
-			var gifSrc = this.getGif();
+			var gifSrc = this.getFile('gif');
 			var gifWidth=this.previewElement.width();
 			var gifHeight=this.previewElement.height();
 			
@@ -167,6 +156,7 @@
 			this.gifElement.css('left','0');
 			this.gifElement.attr('src', gifSrc);
 			this.gifElement.click( function(e){
+				gp.getOption('onStop').call(gp.previewElement);
 				$(this).remove();
 				gp.previewElement.show();
 				gp.playElement.show();
@@ -180,8 +170,8 @@
 		loadVideo: function(){
 			var gp=this;
 
-			var videoSrcMp4=this.getMp4();
-			var videoSrcWebm=this.getWebm();
+			var videoSrcMp4=this.getFile('mp4');
+			var videoSrcWebm=this.getFile('webm');
 			var videoWidth=this.previewElement.width();
 			var videoHeight=this.previewElement.height();
 			gp.videoElement=$('<video class="gp-video-element" width="' + videoWidth + 'px" height="' + videoHeight + '" style="margin:0 auto;width:' + videoWidth + 'px;height:' + videoHeight + 'px;" autoplay="autoplay" loop="loop" muted="muted" poster="' + gp.previewElement.attr('src') + '"><source type="video/mp4" src="' + videoSrcMp4 + '"><source type="video/webm" src="' + videoSrcWebm + '"></video>');
@@ -223,6 +213,7 @@
 		},
 
 		pauseVideo: function(){
+			this.getOption('onPause').call(this.previewElement);
 			var gp = this;
 			gp.videoPaused = true;
 			gp.videoElement[0].pause();
@@ -232,6 +223,8 @@
 		},
 
 		resumeVideo: function(){
+			this.getOption('onPlay').call(this.previewElement);
+
 			var gp = this;
 			gp.videoPaused = false;
 			gp.videoElement[0].play();
@@ -249,6 +242,7 @@
 		},
 
 		abortLoading: function(e){
+			this.getOption('onStop').call(this.previewElement);
 			this.spinnerElement.hide();
 			this.playElement.show();
 			e.preventDefault();
@@ -330,7 +324,11 @@
 		gif: '',
 		mp4: '',
 		webm: '',
-		wait: false
+		wait: false,
+		singleton: false,
+		onPlay: function(elem){ console.log('Event onPlay fired with:',elem); },
+		onPause: function(elem){ console.log('Event onPause fired with:',elem); },
+		onStop: function(elem){ console.log('Event onStop fired with:',elem); }
 	};
 
 })(jQuery);
