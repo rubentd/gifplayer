@@ -9,14 +9,14 @@ New: Video support (webm, mp4)
 
 1. Add a preview of the gif or video file to your website
 2. Specify a ‘data-src’ attribute with the path to the animated gif or video, or simply have an image with the same name and the .gif extension in the same folder of the ‘preview’ image
-3. Include jquery.js, gifplayer.js and gifplayer.css on your site
+3. Include jquery.js, jquery.gifplayer.js and gifplayer.css on your site
 4. Call the .gifplayer() method for the desired images
 
 ```html
-<img id="banana" src="img/banana.png"/>
+<img class="gifplayer" src="media/banana.png" />
  
 <script>
-	$('#banana').gifplayer();
+	$('.gifplayer').gifplayer();
 </script>
 ```
 
@@ -25,12 +25,12 @@ New: Video support (webm, mp4)
 Options can be setup in two ways: 
 1. Setup as an object when initializing the plugin: 
 ```javascript
-$('#banana').gifplayer({ label: 'play' });
+$('.banana').gifplayer({ label: 'play' });
 ```
 
 2. Setup as data attributes in the preview image: 
 ```html
-<img src="banana.png" data-label="play">
+<img class="banana" src="banana.png" data-label="play">
 ```
 
 Option	|Values	|Default | Allowed values
@@ -53,4 +53,18 @@ $('#banana').gifplayer('play');
 
 ```javascript
 $('#banana').gifplayer('stop');
+
+###Events (beta)
+
+Use events to do awesome things 
+
+```javascript
+$('#banana').gifplayer({
+    onPlay: function(){
+        console.log('GIF started',this);
+    },
+    onStop: function(){
+        console.log('GIF stopped',this);
+    },
+});
 ```
