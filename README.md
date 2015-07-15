@@ -36,7 +36,7 @@ $('.banana').gifplayer({ label: 'play' });
 Option	|Values	|Default | Allowed values
 --- | --- | --- | ---
 label	| A value for the label in the circle over the image	|‘gif’ |
-playOn	| Event that triggers playing the animated gif	|'click', |
+playOn	| Event that triggers playing the animated gif	|'click' | 'click', 'hover'
 mode | Load an animated gif file or a video | 'gif' | 'gif', 'video'
 gif | Source for the gif file | Default option is the same name of the preview imagem replacing extension to .gif |
 mp4 | Source for the mp4 video file (video mode)| Default option is the same name of the preview imagem replacing extension to .mp4 |

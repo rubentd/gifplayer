@@ -8,9 +8,9 @@
 (function($) {
 
 	function GifPlayer(preview, options){
-		this.previewElement=preview;
-		this.options=options;
-		this.animationLoaded=false;
+		this.previewElement = preview;
+		this.options = options;
+		this.animationLoaded = false;
 	}
 
 	GifPlayer.scopes = new Array();
@@ -26,7 +26,6 @@
 			this.addEvents();
 		},
 
-		//create a wrapper with relative positioning
 		wrap: function(){
 			this.previewElement.addClass('gifplayer-ready');
 			this.wrapper = this.previewElement.wrap("<div class='gifplayer-wrapper'></div>").parent();
@@ -35,9 +34,8 @@
 			this.previewElement.css('cursor','pointer');
 		},
 
-		//Setup loading spinner
 		addSpinner: function(){
-			this.spinnerElement=$("<div class = 'spinner'></div>");
+			this.spinnerElement = $("<div class = 'spinner'></div>");
 			this.wrapper.append(this.spinnerElement);
 			this.spinnerElement.hide();
 		},
@@ -60,43 +58,50 @@
 		},
 
 		addEvents: function(){
-			var gp=this;
+			var gp = this;
 			var playOn = this.getOption('playOn');
 			var mode = this.getOption('mode');
 
 			switch(playOn){
 				case 'click':
-				gp.playElement.on( 'click', function(e){
-					gp.loadAnimation();
-				});
-				gp.previewElement.on( 'click', function(e){
-					gp.loadAnimation();
-					e.preventDefault();
-					e.stopPropagation();
-				});
-				break;
+					gp.playElement.on( 'click', function(e){
+						gp.loadAnimation();
+					});
+					gp.previewElement.on( 'click', function(e){
+						gp.loadAnimation();
+						e.preventDefault();
+						e.stopPropagation();
+					});
+					break;
 				case 'hover':
-				gp.previewElement.on( 'click mouseover', function(e){
-					gp.loadAnimation();
-					e.preventDefault();
-					e.stopPropagation();
-				});
-				break;
+					gp.previewElement.on( 'click mouseover', function(e){
+						gp.loadAnimation();
+						e.preventDefault();
+						e.stopPropagation();
+					});
+					break;
+				case 'auto':
+					console.log('auto not implemented yet');
+					break;
+				default:
+					console.log(playOn + ' is not accepted as playOn value.');
 			}
 		},
 
-		loadAnimation: function(){
-			this.spinnerElement.show();
-			this.getOption('onPlay').call(this.previewElement);
-
+		processScope: function(){
 			scope = this.getOption('scope');
-
 			if( scope ){
 				if(GifPlayer.scopes[scope]){
 					GifPlayer.scopes[scope].stopGif();
 				}
 				GifPlayer.scopes[scope] = this;
 			}
+		},
+
+		loadAnimation: function(){
+			this.processScope();
+
+			this.spinnerElement.show();			
 
 			var mode = this.getOption('mode');
 			if(mode == 'gif'){
@@ -104,6 +109,8 @@
 			}else if(mode == 'video'){
 				this.loadVideo();
 			}
+			// Fire event onPlay
+			this.getOption('onPlay').call(this.previewElement);
 		},
 
 		stopGif: function(){
@@ -132,7 +139,7 @@
 		},
 
 		loadGif: function(){
-			var gp=this;
+			var gp = this;
 
 			gp.playElement.hide();
 
@@ -140,8 +147,8 @@
 				this.enableAbort();
 			}
 			var gifSrc = this.getFile('gif');
-			var gifWidth=this.previewElement.width();
-			var gifHeight=this.previewElement.height();
+			var gifWidth = this.previewElement.width();
+			var gifHeight = this.previewElement.height();
 			
 			this.gifElement=$("<img class='gp-gif-element' width='"+ gifWidth + "' height=' "+ gifHeight +" '/>");
 
@@ -178,24 +185,19 @@
 		},
 
 		loadVideo: function(){
-			var gp=this;
 
-			var videoSrcMp4=this.getFile('mp4');
-			var videoSrcWebm=this.getFile('webm');
-			var videoWidth=this.previewElement.width();
-			var videoHeight=this.previewElement.height();
-			gp.videoElement=$('<video class="gp-video-element" width="' + videoWidth + 'px" height="' + videoHeight + '" style="margin:0 auto;width:' + videoWidth + 'px;height:' + videoHeight + 'px;" autoplay="autoplay" loop="loop" muted="muted" poster="' + gp.previewElement.attr('src') + '"><source type="video/mp4" src="' + videoSrcMp4 + '"><source type="video/webm" src="' + videoSrcWebm + '"></video>');
+			var videoSrcMp4 = this.getFile('mp4');
+			var videoSrcWebm = this.getFile('webm');
+			var videoWidth = this.previewElement.width();
+			var videoHeight = this.previewElement.height();
 
-			var playVideo = function(){
-				gp.spinnerElement.hide();
-				gp.previewElement.hide();
-				gp.playElement.hide();
-				gp.gifLoaded=true;
-				gp.previewElement.hide();
-				gp.wrapper.append(gp.videoElement);
-				gp.videoPaused = false;
-				gp.videoElement[0].play();
-			}
+			this.videoElement = $('<video class="gp-video-element" width="' + 
+				videoWidth + 'px" height="' + videoHeight + '" style="margin:0 auto;width:' + 
+				videoWidth + 'px;height:' + videoHeight + 'px;" autoplay="autoplay" loop="loop" muted="muted" poster="' + 
+				this.previewElement.attr('src') + '"><source type="video/mp4" src="' + 
+				videoSrcMp4 + '"><source type="video/webm" src="' + videoSrcWebm + '"></video>');
+
+			var gp = this;
 
 			var checkLoad = function(){
 				if(gp.videoElement[0].readyState === 4){
@@ -210,10 +212,10 @@
 			if(wait){
 				checkLoad();
 			}else{
-				playVideo();
+				this.playVideo();
 			}
 			
-			gp.videoElement.on('click', function(){
+			this.videoElement.on('click', function(){
 				if(gp.videoPaused){
 					gp.resumeVideo();
 				}else{
@@ -222,21 +224,31 @@
 			});
 		},
 
+		playVideo: function(){
+			this.spinnerElement.hide();
+			this.previewElement.hide();
+			this.playElement.hide();
+
+			this.gifLoaded = true;
+			this.previewElement.hide();
+			this.wrapper.append(this.videoElement);
+			this.videoPaused = false;
+			this.videoElement[0].play();
+			this.getOption('onPlay').call(this.previewElement);
+		},
+
 		pauseVideo: function(){
-			var gp = this;
-			gp.videoPaused = true;
-			gp.videoElement[0].pause();
-			console.log(gp.videoElement);
-			gp.playElement.show();
-			gp.mouseoverEnabled = false;
+			this.videoPaused = true;
+			this.videoElement[0].pause();
+			this.playElement.show();
+			this.mouseoverEnabled = false;
 			this.getOption('onStop').call(this.previewElement);
 		},
 
 		resumeVideo: function(){
-			var gp = this;
-			gp.videoPaused = false;
-			gp.videoElement[0].play();
-			gp.playElement.hide();
+			this.videoPaused = false;
+			this.videoElement[0].play();
+			this.playElement.hide();
 			this.getOption('onPlay').call(this.previewElement);
 		},
 
@@ -276,7 +288,7 @@
 	$.fn.gifplayer = function(options) {
 
 		// Check if we should operate with some method
-		if (/^(play|pause|stop)$/i.test(options)) {
+		if (/^(play|stop)$/i.test(options)) {
 
 			return this.each( function(){
 				// Normalize method's name
@@ -312,8 +324,6 @@
 							}
 							break;
 					}
-				}else{
-					console.log('Not a valid gifplayer element');
 				}
 			});
 
