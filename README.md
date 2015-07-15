@@ -53,6 +53,7 @@ $('#banana').gifplayer('play');
 
 ```javascript
 $('#banana').gifplayer('stop');
+```
 
 ###Events (beta)
 
