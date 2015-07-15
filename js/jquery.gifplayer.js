@@ -13,6 +13,8 @@
 		this.animationLoaded=false;
 	}
 
+	GifPlayer.scopes = new Array();
+
 	GifPlayer.prototype = {
 
 		supportedFormats: ['gif', 'jpeg', 'jpg', 'png'],
@@ -86,6 +88,16 @@
 		loadAnimation: function(){
 			this.spinnerElement.show();
 			this.getOption('onPlay').call(this.previewElement);
+
+			scope = this.getOption('scope');
+
+			if( scope ){
+				if(GifPlayer.scopes[scope]){
+					GifPlayer.scopes[scope].stopGif();
+				}
+				GifPlayer.scopes[scope] = this;
+			}
+
 			var mode = this.getOption('mode');
 			if(mode == 'gif'){
 				this.loadGif();
@@ -99,6 +111,7 @@
 			this.previewElement.show();
 			this.playElement.show();
 			this.resetEvents();
+			this.getOption('onStop').call(this.previewElement);
 		},
 
 		getFile: function( ext ){
@@ -156,11 +169,8 @@
 			this.gifElement.css('left','0');
 			this.gifElement.attr('src', gifSrc);
 			this.gifElement.click( function(e){
-				gp.getOption('onStop').call(gp.previewElement);
 				$(this).remove();
-				gp.previewElement.show();
-				gp.playElement.show();
-				gp.resetEvents();
+				gp.stopGif();
 				e.preventDefault();
 				e.stopPropagation();
 			});
@@ -213,22 +223,21 @@
 		},
 
 		pauseVideo: function(){
-			this.getOption('onPause').call(this.previewElement);
 			var gp = this;
 			gp.videoPaused = true;
 			gp.videoElement[0].pause();
 			console.log(gp.videoElement);
 			gp.playElement.show();
 			gp.mouseoverEnabled = false;
+			this.getOption('onStop').call(this.previewElement);
 		},
 
 		resumeVideo: function(){
-			this.getOption('onPlay').call(this.previewElement);
-
 			var gp = this;
 			gp.videoPaused = false;
 			gp.videoElement[0].play();
 			gp.playElement.hide();
+			this.getOption('onPlay').call(this.previewElement);
 		},
 
 		enableAbort: function(){
@@ -325,10 +334,9 @@
 		mp4: '',
 		webm: '',
 		wait: false,
-		singleton: false,
-		onPlay: function(elem){ console.log('Event onPlay fired with:',elem); },
-		onPause: function(elem){ console.log('Event onPause fired with:',elem); },
-		onStop: function(elem){ console.log('Event onStop fired with:',elem); }
+		scope: false,
+		onPlay: function(){},
+		onStop: function(){}
 	};
-
+	
 })(jQuery);
