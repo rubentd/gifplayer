@@ -1,7 +1,7 @@
 /* 
 * Gifplayer v0.2.2
 * Customizable jquery plugin to play and stop animated gifs. Similar to 9gag's
-* (c)2014 Rubén Torres - rubentdlh@gmail.com
+* (c)2014 RubÃ©n Torres - rubentdlh@gmail.com
 * Released under the MIT license
 */
 
@@ -165,6 +165,7 @@
 					gp.previewElement.hide();
 					gp.wrapper.append(gp.gifElement);
 					gp.spinnerElement.hide();
+					gp.getOption('onLoadComplete').call(gp.previewElement);
 				});
 			}else{
 				//Try to show gif instantly
@@ -185,6 +186,7 @@
 				e.preventDefault();
 				e.stopPropagation();
 			});
+			gp.getOption('onLoad').call(gp.previewElement);
 			
 		},
 
@@ -346,7 +348,9 @@
 		wait: false,
 		scope: false,
 		onPlay: function(){},
-		onStop: function(){}
+		onStop: function(){},
+		onLoad: function(){},
+		onLoadComplete: function(){}
 	};
 	
 })(jQuery);
