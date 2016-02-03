@@ -127,9 +127,9 @@
 
 		getFile: function( ext ){
 			// Obtain the resource default path
-			var gif = this.getOption('gif');
-			if(gif != undefined && gif != ''){
-				return gif;
+			var sExt = this.getOption(ext);
+			if(sExt != undefined && sExt != ''){
+				return sExt;
 			}else{
 				replaceString = this.previewElement.attr('src');
 
