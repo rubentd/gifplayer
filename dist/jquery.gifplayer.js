@@ -1,4 +1,4 @@
-/* 
+/*
 * Gifplayer v0.2.2
 * Customizable jquery plugin to play and stop animated gifs. Similar to 9gag's
 * (c)2014 Rubén Torres - rubentdlh@gmail.com
@@ -20,11 +20,19 @@
 		supportedFormats: ['gif', 'jpeg', 'jpg', 'png'],
 
 		activate: function(){
+			var self = this;
 			this.mode = this.getOption('mode');
-			this.wrap();
-			this.addSpinner();
-			this.addControl();
-			this.addEvents();
+			self.wrap();
+			self.addSpinner();
+			self.addControl();
+			self.addEvents();
+			this.previewElement.onload = function(){
+				// activate plugin in case image had not loaded at the time
+				self.wrap();
+				self.addSpinner();
+				self.addControl();
+				self.addEvents();
+			}
 		},
 
 		wrap: function(){
@@ -101,7 +109,7 @@
 		loadAnimation: function(){
 			this.processScope();
 
-			this.spinnerElement.show();			
+			this.spinnerElement.show();
 
 			if( this.mode == 'gif'){
 				this.loadGif();
@@ -153,7 +161,7 @@
 			var gifSrc = this.getFile('gif');
 			var gifWidth = this.previewElement.width();
 			var gifHeight = this.previewElement.height();
-			
+
 			this.gifElement=$("<img class='gp-gif-element' width='"+ gifWidth + "' height=' "+ gifHeight +" '/>");
 
 			var wait = this.getOption('wait');
@@ -187,7 +195,7 @@
 				e.stopPropagation();
 			});
 			gp.getOption('onLoad').call(gp.previewElement);
-			
+
 		},
 
 		loadVideo: function(){
@@ -198,10 +206,10 @@
 			var videoWidth = this.previewElement.width();
 			var videoHeight = this.previewElement.height();
 
-			this.videoElement = $('<video class="gp-video-element" width="' + 
-				videoWidth + 'px" height="' + videoHeight + '" style="margin:0 auto;width:' + 
-				videoWidth + 'px;height:' + videoHeight + 'px;" autoplay="autoplay" loop="loop" muted="muted" poster="' + 
-				this.previewElement.attr('src') + '"><source type="video/mp4" src="' + 
+			this.videoElement = $('<video class="gp-video-element" width="' +
+				videoWidth + 'px" height="' + videoHeight + '" style="margin:0 auto;width:' +
+				videoWidth + 'px;height:' + videoHeight + 'px;" autoplay="autoplay" loop="loop" muted="muted" poster="' +
+				this.previewElement.attr('src') + '"><source type="video/mp4" src="' +
 				videoSrcMp4 + '"><source type="video/webm" src="' + videoSrcWebm + '"></video>');
 
 			var gp = this;
@@ -221,7 +229,7 @@
 			}else{
 				this.playVideo();
 			}
-			
+
 			this.videoElement.on('click', function(){
 				if(gp.videoPaused){
 					gp.resumeVideo();
@@ -335,7 +343,7 @@
 				var gifplayer = new GifPlayer($(this), options);
 				gifplayer.activate();
 			});
-		}	
+		}
 	};
 
 	$.fn.gifplayer.defaults = {
@@ -352,5 +360,5 @@
 		onLoad: function(){},
 		onLoadComplete: function(){}
 	};
-	
+
 })(jQuery);
