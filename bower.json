@@ -1,7 +1,7 @@
 {
   "name": "jquery.gifplayer",
   "description": "Customizable jquery plugin to play and stop animated gifs. Similar to 9gag's. Supports video",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "main" : [
     "js/jquery.gifplayer.js",
     "css/gifplayer.css"
