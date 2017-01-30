@@ -1,0 +1,29 @@
+{
+  "name": "gifplayer",
+  "version": "0.3.3",
+  "description": "Customizable jquery plugin to play and stop animated gifs. New: Video support (webm, mp4)",
+  "main": "dist/jquery.gifplayer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rubentd/gifplayer.git"
+  },
+  "keywords": [
+    "gifplayer",
+    "gif",
+    "animated",
+    "gifs",
+    "player",
+    "9gag",
+    "play",
+    "stop"
+  ],
+  "author": "Rubén Torres",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rubentd/gifplayer/issues"
+  },
+  "homepage": "https://github.com/rubentd/gifplayer#readme"
+}
