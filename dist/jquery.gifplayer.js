@@ -5,7 +5,13 @@
 * Released under the MIT license
 */
 
-(function($) {
+(function (factory) {
+  if(typeof module === "object" && typeof module.exports === "object") {
+    module.exports = factory(require("jquery"));
+  } else {
+    factory(jQuery);
+  }
+}(function($) {
 
 	function GifPlayer(preview, options){
 		this.previewElement = preview;
@@ -360,4 +366,6 @@
 		onLoadComplete: function(){}
 	};
 
-})(jQuery);
+	return GifPlayer;
+
+}));
