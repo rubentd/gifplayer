@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>gifplayer. Customizable jquery plugin to play and stop animated gifs. Similar to 9gag's</title>
+	<link rel="stylesheet" href="css/normalize.css" />
+	<link rel="stylesheet" href="css/index.css" />
+	<link rel="stylesheet" href="../dist/gifplayer.css" />
+	<link rel="icon" type="image/png" href="media/banana.png" />
+</head>
+
+<body id="home">
+
+	<main class="main options">
+
+		<h1>gifplayer</h1>
+		<p>Customizable jquery plugin to play and stop animated gifs. Similar to
+		9gag's. By <a href="http://www.twitter.com/darthrubens">@darthrubens</a></p>
+
+		<section>
+			<h2>Default options:</h2>
+			<img class="gifplayer" src="media/banana.png" />
+		</section>
+
+		<hr />
+
+		<section>
+			<h2>Play on hover:</h2>
+			<img class="gifplayer" src="media/banana.png" data-playon="hover" />
+		</section>
+		<!--
+		<hr />
+
+        <section>
+            <h2>Autoplay:</h2>
+            <img class="gifplayer" src="media/banana.png" data-playon="auto" />
+        </section>-->
+
+        <hr />
+
+		<section>
+			<h2>Scopes:</h2>
+            <img class="gifplayer" src="media/banana.png" data-scope="one" width="100" />
+            <img class="gifplayer" src="media/banana.png" data-scope="one" width="100" />
+            <img class="gifplayer" src="media/banana.png" data-scope="one" width="100" />
+            <br />
+            <img class="gifplayer" src="media/banana.png" data-scope="two" width="100" />
+            <img class="gifplayer" src="media/banana.png" data-scope="two" width="100" />
+            <img class="gifplayer" src="media/banana.png" data-scope="two" width="100" />
+		</section>
+
+		<hr />
+
+		<section>
+			<h2>Wait until fully loaded:</h2>
+			<img class="gifplayer" src="media/banana.png" data-wait="true" />
+		</section>
+
+		<hr />
+
+		<section>
+			<h2>Setup alternative source:</h2>
+			<img class="gifplayer" src="media/banana.png" data-gif="media/banana.gif" />
+		</section>
+
+		<hr />
+
+		<section>
+			<h2>Video mode:</h2>
+			<img class="gifplayer" src="media/banana.png"
+				data-mode="video"
+				data-webm="media/banana.webm"
+				data-mp4="media/banana.mp4" />
+		</section>
+
+		<hr />
+
+		<section>
+			<h2>Custom size 1:</h2>
+			<img class="gifplayer" src="media/banana.png" width="500px" height="auto" />
+		</section>
+
+		<hr />
+
+		<section style="width: 800px;">
+			<h2>Custom size 2:</h2>
+			<img class="gifplayer" src="media/banana.png"
+				style="width: 100%;"
+				data-mode="video"
+				data-webm="media/banana.webm"
+				data-mp4="media/banana.mp4" />
+		</section>
+
+		<hr />
+
+		<p>
+			<a href="https://github.com/darthrubens/gifplayer">
+				Fork me on Github
+			</a>
+		</p>
+
+		<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+		<script src="../dist/jquery.gifplayer.js"></script>
+		<script>
+			$(document).ready( function(){
+				$('.gifplayer').gifplayer();
+			});
+		</script>
+
+	</body>
+</html>
