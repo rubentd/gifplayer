@@ -1,6 +1,6 @@
 {
   "name": "gifplayer",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Customizable jquery plugin to play and stop animated gifs. New: Video support (webm, mp4)",
   "main": "dist/jquery.gifplayer.js",
   "scripts": {
