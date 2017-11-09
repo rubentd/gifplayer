@@ -1,11 +1,12 @@
 gifplayer
 ===========
+
 [![Bower version](https://badge.fury.io/bo/jquery.gifplayer.svg)](http://badge.fury.io/bo/jquery.gifplayer)
 
 Customizable jquery plugin to play and stop animated gifs. Similar to 9gag's.
 New: Video support (webm, mp4)
 
-###Basic Usage
+### Basic Usage
 
 1. Add a preview of the gif or video file to your website
 2. Specify a ‘data-src’ attribute with the path to the animated gif or video, or simply have an image with the same name and the .gif extension in the same folder of the ‘preview’ image
@@ -20,15 +21,18 @@ New: Video support (webm, mp4)
 </script>
 ```
 
-###Options
+### Options
 
 Options can be setup in two ways: 
+
 1. Setup as an object when initializing the plugin: 
+
 ```javascript
 $('.banana').gifplayer({ label: 'play' });
 ```
 
 2. Setup as data attributes in the preview image: 
+
 ```html
 <img class="banana" src="banana.png" data-label="play">
 ```
@@ -43,7 +47,7 @@ mp4 | Source for the mp4 video file (video mode)| Default option is the same nam
 webm | Source for the webm video file (video mode)| Default option is the same name of the preview imagem replacing extension to .webm |
 wait | Would you wait until the animation file has been fully loaded to play, or start playing right away | false | true, false
 
-###Methods (beta)
+### Methods (beta)
 
 Use these methods to play and stop the player programatically 
 
@@ -55,7 +59,7 @@ $('#banana').gifplayer('play');
 $('#banana').gifplayer('stop');
 ```
 
-###Events (beta)
+### Events (beta)
 
 Use events to do awesome things 
 
