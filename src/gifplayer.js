@@ -81,10 +81,14 @@
 						gp.previewElement.trigger('click');
 					});
 					gp.previewElement.on( 'click', function(e){
+						// Fire event onClick
+						gp.getOption('onClick').call(gp.previewElement, e);
+
 						gp.loadAnimation();
 						e.preventDefault();
 						e.stopPropagation();
 					});
+
 					break;
 				case 'hover':
 					gp.previewElement.on( 'click mouseover', function(e){
@@ -194,6 +198,9 @@
 			this.gifElement.css('left','0');
 			this.gifElement.attr('src', gifSrc);
 			this.gifElement.click( function(e){
+				// Fire event onClick
+				gp.getOption('onClick').call(gp.previewElement, e);
+
 				$(this).remove();
 				gp.stopGif();
 				e.preventDefault();
@@ -362,6 +369,7 @@
 		scope: false,
 		onPlay: function(){},
 		onStop: function(){},
+		onClick: function(){},
 		onLoad: function(){},
 		onLoadComplete: function(){}
 	};
