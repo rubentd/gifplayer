@@ -176,14 +176,14 @@
 			var wait = this.getOption('wait');
 			if(wait){
 				//Wait until gif loads
-				this.gifElement.load( function(){
+				this.gifElement.on({ load: function(){
 					gp.animationLoaded = true;
 					gp.resetEvents();
 					gp.previewElement.hide();
 					gp.wrapper.append(gp.gifElement);
 					gp.spinnerElement.hide();
 					gp.getOption('onLoadComplete').call(gp.previewElement);
-				});
+				}});
 			}else{
 				//Try to show gif instantly
 				gp.animationLoaded = true;
