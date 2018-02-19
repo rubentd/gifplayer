@@ -135,11 +135,15 @@
 		},
 
 		stopGif: function(){
-			this.gifElement.hide();
-			this.previewElement.show();
-			this.playElement.show();
-			this.resetEvents();
-			this.getOption('onStop').call(this.previewElement);
+			if (this.animationLoaded) {
+				this.gifElement.hide();
+				this.previewElement.show();
+				this.playElement.show();
+				this.resetEvents();
+				this.getOption('onStop').call(this.previewElement);
+			}else{
+				this.abortLoading();
+			}
 		},
 
 		getFile: function( ext ){
@@ -292,8 +296,10 @@
 		abortLoading: function(e){
 			this.spinnerElement.hide();
 			this.playElement.show();
-			e.preventDefault();
-			e.stopPropagation();
+			if (typeof e !== 'undefined') {
+				e.preventDefault();
+				e.stopPropagation();
+			}
 			this.gifElement.off('load').on( 'load', function(ev){
 				ev.preventDefault();
 				ev.stopPropagation();
