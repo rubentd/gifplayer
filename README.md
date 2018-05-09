@@ -71,5 +71,11 @@ $('#banana').gifplayer({
     onStop: function(){
         console.log('GIF stopped',this);
     },
+    onLoad: function(){
+        console.log('GIF fired',this);
+    },
+    onLoadComplete: function(){
+        console.log('GIF loaded and ready to play',this);
+    }
 });
 ```
