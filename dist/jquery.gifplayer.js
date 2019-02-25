@@ -65,7 +65,7 @@
 
 		addControl: function(){
 			var label = this.getOption('label');
-			this.playElement = $("<ins class='play-gif'>" + label + "</ins>");
+			this.playElement = $("<ins class='play-gif' tabindex='0'>" + label + "</ins>");
 			this.wrapper.append(this.playElement);
 			this.playElement.css('top', this.previewElement.height()/2 - this.playElement.height()/2);
 			this.playElement.css('left', this.previewElement.width()/2 - this.playElement.width()/2);
@@ -74,9 +74,15 @@
 		addEvents: function(){
 			var gp = this;
 			var playOn = this.getOption('playOn');
-
+            
 			switch(playOn){
 				case 'click':
+                    gp.playElement.on( "keydown", function(e) {
+                        var keyCode = (e.keyCode ? e.keyCode : e.which);   
+                        if (keyCode === 13) {
+                            gp.previewElement.trigger('click');
+                        }
+                    });
 					gp.playElement.on( 'click', function(e){
 						gp.previewElement.trigger('click');
 					});
@@ -138,6 +144,7 @@
 			this.gifElement.hide();
 			this.previewElement.show();
 			this.playElement.show();
+            this.playElement.focus();
 			this.resetEvents();
 			this.getOption('onStop').call(this.previewElement);
 		},
@@ -171,7 +178,7 @@
 			var gifWidth = this.previewElement.width();
 			var gifHeight = this.previewElement.height();
 
-			this.gifElement=$("<img class='gp-gif-element' width='"+ gifWidth + "' height=' "+ gifHeight +" '/>");
+			this.gifElement=$("<img class='gp-gif-element' width='"+ gifWidth + "' height=' "+ gifHeight +" '  tabindex='0' />");
 
 			var wait = this.getOption('wait');
 			if(wait){
@@ -181,6 +188,7 @@
 					gp.resetEvents();
 					gp.previewElement.hide();
 					gp.wrapper.append(gp.gifElement);
+                    gp.gifElement.focus();
 					gp.spinnerElement.hide();
 					gp.getOption('onLoadComplete').call(gp.previewElement);
 				}});
@@ -190,6 +198,7 @@
 				gp.resetEvents();
 				gp.previewElement.hide();
 				gp.wrapper.append(gp.gifElement);
+                gp.gifElement.focus();
 				gp.spinnerElement.hide();
 			}
 			this.gifElement.css('cursor','pointer');
@@ -197,6 +206,15 @@
 			this.gifElement.css('top','0');
 			this.gifElement.css('left','0');
 			this.gifElement.attr('src', gifSrc);
+            this.gifElement.on( "keydown", function(e) {
+                var keyCode = (e.keyCode ? e.keyCode : e.which);   
+                if (keyCode === 13) {
+                    $(this).remove();
+                    gp.stopGif();
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+            });
 			this.gifElement.click( function(e){
 				// Fire event onClick
 				gp.getOption('onClick').call(gp.previewElement, e);
@@ -207,7 +225,6 @@
 				e.stopPropagation();
 			});
 			gp.getOption('onLoad').call(gp.previewElement);
-
 		},
 
 		loadVideo: function(){
@@ -305,7 +322,9 @@
 		resetEvents: function(){
 			this.previewElement.off('click');
 			this.previewElement.off('mouseover');
+			this.previewElement.off('keydown');
 			this.playElement.off('click');
+			this.playElement.off('keydown');
 			this.spinnerElement.off('click');
 			this.addEvents();
 		}
@@ -344,7 +363,7 @@
 									gp.videoElement.trigger('click');
 								}
 							}
-							break;
+						break;
 					}
 				}
 			});
