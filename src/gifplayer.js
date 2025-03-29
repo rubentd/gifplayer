@@ -148,7 +148,7 @@
 			if(gif !== undefined && gif !== ''){
 				return gif;
 			}else{
-				var replaceString = this.previewElement.attr('src');
+				var replaceString = this.sanitizeURL(this.previewElement.attr('src'));
 
 				for (var i = 0; i < this.supportedFormats.length; i++) {
 					var pattrn = new RegExp( this.supportedFormats[i]+'$', 'i' );
@@ -167,7 +167,7 @@
 			if(!this.animationLoaded){
 				this.enableAbort();
 			}
-			var gifSrc = this.getFile('gif');
+			var gifSrc = this.sanitizeURL(this.getFile('gif'));
 			var gifWidth = this.previewElement.width();
 			var gifHeight = this.previewElement.height();
 
@@ -196,7 +196,7 @@
 			this.gifElement.css('position','absolute');
 			this.gifElement.css('top','0');
 			this.gifElement.css('left','0');
-			this.gifElement.attr('src', gifSrc);
+			this.gifElement.attr('src', this.sanitizeURL(gifSrc));
 			this.gifElement.click( function(e){
 				// Fire event onClick
 				gp.getOption('onClick').call(gp.previewElement, e);
@@ -213,16 +213,30 @@
 		loadVideo: function(){
 			this.videoLoaded = true;
 
-			var videoSrcMp4 = this.getFile('mp4');
-			var videoSrcWebm = this.getFile('webm');
+			var videoSrcMp4 = this.sanitizeURL(this.getFile('mp4'));
+			var videoSrcWebm = this.sanitizeURL(this.getFile('webm'));
 			var videoWidth = this.previewElement.width();
 			var videoHeight = this.previewElement.height();
 
-			this.videoElement = $('<video class="gp-video-element" width="' +
-				videoWidth + 'px" height="' + videoHeight + '" style="margin:0 auto;width:' +
-				videoWidth + 'px;height:' + videoHeight + 'px;" autoplay="autoplay" loop="loop" muted="muted" poster="' +
-				this.previewElement.attr('src') + '"><source type="video/mp4" src="' +
-				videoSrcMp4 + '"><source type="video/webm" src="' + videoSrcWebm + '"></video>');
+			this.videoElement = $('<video>', {
+				class: 'gp-video-element',
+				width: videoWidth + 'px',
+				height: videoHeight + 'px',
+				style: 'margin:0 auto;width:' + videoWidth + 'px;height:' + videoHeight + 'px;',
+				autoplay: 'autoplay',
+				loop: 'loop',
+				muted: 'muted',
+				poster: this.sanitizeURL(this.previewElement.attr('src'))
+			}).append(
+				$('<source>', {
+					type: 'video/mp4',
+					src: this.sanitizeURL(videoSrcMp4)
+				}),
+				$('<source>', {
+					type: 'video/webm',
+					src: this.sanitizeURL(videoSrcWebm)
+				})
+			);
 
 			var gp = this;
 
@@ -308,6 +322,17 @@
 			this.playElement.off('click');
 			this.spinnerElement.off('click');
 			this.addEvents();
+		},
+
+		sanitizeURL: function (url) {
+			let parser = document.createElement('a');
+			parser.href = url;
+			const allowedProtocols = ["http:", "https:", ":", "file:"];
+			if (allowedProtocols.includes(parser.protocol)) {
+				return parser.href;
+			} else {
+				return 'about:blank';
+			}
 		}
 
 	};
