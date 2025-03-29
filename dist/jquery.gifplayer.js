@@ -1,5 +1,5 @@
 /*
-* Gifplayer v0.3.4
+* Gifplayer v0.3.5
 * Customizable jquery plugin to play and stop animated gifs. Similar to 9gag's
 * (c)2014 Rubén Torres - rubentdlh@gmail.com
 * Released under the MIT license
@@ -56,7 +56,7 @@
 
 		getOption: function(option){
 			var dataOption = this.previewElement.data(option.toLowerCase());
-			if(dataOption != undefined && dataOption != ''){
+			if(dataOption !== undefined && dataOption !== ''){
 				return dataOption;
 			}else{
 				return this.options[option];
@@ -65,7 +65,7 @@
 
 		addControl: function(){
 			var label = this.getOption('label');
-			this.playElement = $("<ins class='play-gif'>" + label + "</ins>");
+			this.playElement = $("<ins class='play-gif'></ins>").text(label);
 			this.wrapper.append(this.playElement);
 			this.playElement.css('top', this.previewElement.height()/2 - this.playElement.height()/2);
 			this.playElement.css('left', this.previewElement.width()/2 - this.playElement.width()/2);
@@ -145,13 +145,13 @@
 		getFile: function( ext ){
 			// Obtain the resource default path
 			var gif = this.getOption(ext);
-			if(gif != undefined && gif != ''){
+			if(gif !== undefined && gif !== ''){
 				return gif;
 			}else{
-				replaceString = this.previewElement.attr('src');
+				var replaceString = this.previewElement.attr('src');
 
-				for (i = 0; i < this.supportedFormats.length; i++) {
-					pattrn = new RegExp( this.supportedFormats[i]+'$', 'i' );
+				for (var i = 0; i < this.supportedFormats.length; i++) {
+					var pattrn = new RegExp( this.supportedFormats[i]+'$', 'i' );
 					replaceString = replaceString.replace( pattrn, ext );
 				}
 
