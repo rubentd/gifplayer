@@ -117,7 +117,8 @@
 
 		loadAnimation: function(){
 			this.processScope();
-
+			
+			this.playElement.hide();
 			this.spinnerElement.show();
 
 			if( this.mode == 'gif'){
